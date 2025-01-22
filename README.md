@@ -8,7 +8,7 @@
 
 **如果`pointnode本身就是NULL的话（比如你scanf的时候直接输入-1就会这样，链表只有一个头节点）这个时候pointnode->next相当于在访问空指针，会出bug，程序会崩溃。`**
 
-所以要在循环的时候加个条件，变成`while (pointnode！=NULL && pointnode->next != NULL)`就ok。![image-20250123021754029](https://cdn.jsdelivr.net/gh/xixiluyaoyao/Code@develop/202501230221721.png)
+所以要在循环的时候加个条件，这样就ok：`while (pointnode！=NULL && pointnode->next != NULL)`![image-20250123021754029](https://cdn.jsdelivr.net/gh/xixiluyaoyao/Code@develop/202501230221721.png)
 
 
 
