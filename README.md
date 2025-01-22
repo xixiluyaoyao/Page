@@ -29,6 +29,7 @@
 根本啥也没有啊？
 
 于是我觉得是我初始化本地仓库的问题，我以为是我本地文件的位置有问题（因为vs会自动生成code，debug，x64等等一堆文件），于是我文件位置换了又换，但是毫无作用，差点把vs玩坏了（因为疯狂点推送，拉取，然后变得我也看不懂了）。后面发生，原来![image-20250122224303983](https://cdn.jsdelivr.net/gh/xixiluyaoyao/Note/202501222243009.png)这个调试是可以展开的，我终于发现了fail的原因
+
 ==fatal: unable to access ‘https://github.com/.../.git‘: Failed to connect to github.com port 443 after 21035 ms: Could not connect to server==
 
   但是咱也不知道到底发生了什么，于是又去搜索，然后发现：原来不是本地仓库的原因，而是因为我挂了梯子？？好吧，然后按照教程换了代理端口![image-20250122224707831](https://cdn.jsdelivr.net/gh/xixiluyaoyao/Note/202501222247077.png)
