@@ -60,7 +60,7 @@ struct Linknode* init_list() {
  };
  void Clear(struct Linknode* header) {
 	 struct Linknode* pointnode = header->next;
-	 while (pointnode->next != NULL) {
+	 while (pointnode！=NULL && pointnode->next != NULL) {
 		 if (header == NULL) {
 			 break;
 		 }
