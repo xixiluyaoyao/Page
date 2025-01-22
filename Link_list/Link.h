@@ -6,9 +6,9 @@ struct Linknode
 {
 	int data;
 	struct Linknode* next;
-};
+};//定义一个节点
 
-struct Linknode* init_list();
-void Printnode(struct Linknode* header);
+struct Linknode* init_list();//接口1，用于初始化节点
+void Printnode(struct Linknode* header);接口2，用于遍历链表
 
 #endif 
