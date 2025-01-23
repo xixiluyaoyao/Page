@@ -31,11 +31,16 @@ struct Linknode* init_list() {
 		 printf("这是一个空节点\n");//不知道为什么在vs里的中文提交上来后变成了一串乱码，这边手动更正了
 		 return;
 	 }
+	 if (header->next == NULL) {
+		 printf("链表为空（只有头节点）。\n");
+		 return;
+	 }
 	 struct Linknode* pointnode = header->next;
 	 while (pointnode != NULL){
-		 printf("%d\n", pointnode->data);
+		 printf("%d ", pointnode->data);
 		 pointnode = pointnode->next;//最后一个节点的next指向NULL，于是循环结束
 	 } 
+	 printf("\n");
 };
 
  void Insertnode(struct Linknode* header, int insert_num, int search_num) {
@@ -51,7 +56,7 @@ struct Linknode* init_list() {
 		 }
 	 }
 	 if (pointnext == NULL) {
-		 printf("没有目标数据");
+		 printf("没有目标数据\n");
 	 }
 	 else {
 		 struct Linknode* newnode = malloc(sizeof(struct Linknode));
@@ -63,7 +68,7 @@ struct Linknode* init_list() {
 
  void Clear(struct Linknode* header) {
 	 struct Linknode* pointnode = header->next;
-	 while (pointnode！=NULL && pointnode->next != NULL) {
+	 while (pointnode !=NULL) {
 		 if (header == NULL) {
 			 break;
 		 }
@@ -72,4 +77,61 @@ struct Linknode* init_list() {
 		 pointnode = nextpoint;
 	 }
 	 header->next = NULL;
+ };
+
+ void Delete(struct Linknode* header, int data) {
+	 if (header == NULL || header->next==NULL) {
+		 printf("删除失败，因为链表为空\n");
+		 return;
+	 }
+	 struct Linknode* prepoint = header;//前驱节点
+	 struct Linknode* point = header->next;//当前节点
+	 while (point != NULL) {
+		 if (point->data==data) {
+			 // 找到目标数据，删除节点
+			 prepoint->next = point->next;// 跳过要删除的节点
+			 free(point);
+			 printf("成功删除%d\n", data);
+			 return;
+		 }
+		 else {
+			 prepoint = point;
+			 point = point->next;
+		 }
+	 }
+	 printf("删除失败，因为链表中没有目标数据: %d。\n",data);
+ };
+
+ void Delete_all(struct Linknode* header, int data) {
+	 if (header == NULL || header->next == NULL) {
+		 printf("删除失败，因为链表为空\n");
+		 return;
+	 }
+	 struct Linknode* prepoint = header;
+	 struct Linknode* point = header->next;
+	 int cnt = 0;//计数器，记录删除的节点数量
+	 while (point != NULL) {
+		 if (point->data == data) {
+			 prepoint->next = point->next;
+			 free(point);
+			 point = prepoint->next; //更新当前节点
+			 cnt += 1;// 增加计数器
+		 }
+		 else {
+			 prepoint = point;
+			 point = point->next;
+		 }
+	 }
+	 if (cnt == 0) {
+		 printf("删除失败，因为链表中没有目标数据: %d。\n", data);
+	 }
+	 else {
+		 printf("成功删除%d个%d\n", cnt, data);
+	 }
+ };
+
+ void Destroy(struct Linknode** header) {
+	 Clear(*header);
+	 free(*header);
+	 *header = NULL;
  };
