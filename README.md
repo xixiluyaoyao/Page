@@ -65,7 +65,7 @@ void Destroy(struct Linknode** header) {
 
 - 对Clear函数进行了改进
 
-  原先的Clear是这样的：![image-20250123213226358](C:/Users/24017/AppData/Roaming/Typora/typora-user-images/image-20250123213226358.png)
+  原先的Clear是这样的：![image-20250123215240311](https://cdn.jsdelivr.net/gh/xixiluyaoyao/Code/202501232152648.png)
 
   这里有一个bug：
 
