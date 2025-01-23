@@ -25,6 +25,7 @@ struct Linknode* init_list() {
 	}
 	return header;
 };
+
  void Printnode(struct Linknode* header) {
 	 if (header==NULL) {
 		 printf("这是一个空节点\n");//不知道为什么在vs里的中文提交上来后变成了一串乱码，这边手动更正了
@@ -36,6 +37,7 @@ struct Linknode* init_list() {
 		 pointnode = pointnode->next;//最后一个节点的next指向NULL，于是循环结束
 	 } 
 };
+
  void Insertnode(struct Linknode* header, int insert_num, int search_num) {
 	 struct Linknode* pointpre = header;
 	 struct Linknode* pointnext = header->next;//引入两个指针，一个用于找到对应的节点，一个用于记录该节点的前一个节点
@@ -58,6 +60,7 @@ struct Linknode* init_list() {
 		 pointpre->next = newnode;//找到了，则让前一个节点指向新节点，再让新节点指向后一个节点
 	 }
  };
+
  void Clear(struct Linknode* header) {
 	 struct Linknode* pointnode = header->next;
 	 while (pointnode！=NULL && pointnode->next != NULL) {

@@ -19,5 +19,6 @@ int main(void) {
 	Clear(header);//清空链表
 
 	Printnode(header);//测试清空链表后是否正常输出
+
 	return 0;
 }
