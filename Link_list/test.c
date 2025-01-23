@@ -16,9 +16,21 @@ int main(void) {
 
 	Printnode(header);//测试插入节点后是否正常输出
 
+	Delete(header, 20);//删除链表中的第一个20
+
+	Printnode(header);//测试删除节点后是否正常输出
+
+	Delete_all(header, 20);//删除链表中的所有20
+
+	Printnode(header);//测试删除所有符合要求的节点后是否正常输出
+
 	Clear(header);//清空链表
 
-	Printnode(header);//测试清空链表后是否正常输出
+	Printnode(header->next);//测试链表是否清空
+
+	Destroy(&header);//销毁链表
+	
+	Printnode(header);
 
 	return 0;
 }
