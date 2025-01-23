@@ -63,6 +63,16 @@ void Destroy(struct Linknode** header) {
 
 ![image-20250123204210388](https://cdn.jsdelivr.net/gh/xixiluyaoyao/Code/202501232042438.png)
 
+- 对Clear函数进行了改进
+
+  原先的Clear是这样的：![image-20250123213226358](C:/Users/24017/AppData/Roaming/Typora/typora-user-images/image-20250123213226358.png)
+
+  这里有一个bug：
+
+  如果链表只有头节点的话，此时`pointnode->next`相当于对空指针进行访问，可能会导致程序崩溃，且这部分的判断其实是多余的，所以删掉了这部分的判断：
+
+  ![image-20250123213145659](https://cdn.jsdelivr.net/gh/xixiluyaoyao/Code/202501232131714.png)
+
 ------
 
 
@@ -70,6 +80,8 @@ void Destroy(struct Linknode** header) {
 # 关于Git与Github
 
 最开始把这一栏放在二级目录里，但感觉这一栏的实用性非常强，所以把它放进了一级目录
+
+本人在经历了整整两天除了吃饭和睡觉外都坐在电脑前被vs和git折磨以后，总算是总结出了一些便捷之法
 
 ------
 
@@ -148,7 +160,8 @@ git push origin :[branch name]//删除github远程分支
 
 关于链表的清空功能：之前的代码没有free部分，一直malloc但是不free的话可能导致内存泄漏什么的。还好写的项目不大，不然可能真把电脑搞坏了hhh。
 
-值得一提的是，在调试的过程中，偶然在直接输入-1时编译器直接标红警告了，原因是Clear这个部分![571483936d750f984bea8b102bd4ca20](https://cdn.jsdelivr.net/gh/xixiluyaoyao/Note/202501230207464.png)
+- 值得一提的是，在调试的过程中，偶然在直接输入-1时编译器直接标红警告了，原因是Clear这个部分![571483936d750f984bea8b102bd4ca20](https://cdn.jsdelivr.net/gh/xixiluyaoyao/Note/202501230207464.png)
+
 
 **如果`pointnode本身就是NULL的话（比如你scanf的时候直接输入-1就会这样，链表只有一个头节点）这个时候pointnode->next相当于在访问空指针，会出bug，程序会崩溃。`**
 
@@ -156,7 +169,8 @@ git push origin :[branch name]//删除github远程分支
 
 
 
-还有一个地方想说的是，之前的注释有过这样一段话：![image-20250123022510181](https://cdn.jsdelivr.net/gh/xixiluyaoyao/Code@develop/202501230225309.png)
+- 还有一个地方想说的是，之前的注释有过这样一段话：![image-20250123022510181](https://cdn.jsdelivr.net/gh/xixiluyaoyao/Code@develop/202501230225309.png)
+
 
 现在知道为什么了。能找到原因是因为写扩展的时候是从GitHub的仓库里直接Clone原代码到vs里的，然后在运行的时候发现终端的输出结果中，关于中文的部分是一片乱码，大概是这个样子：![image-20250123022757480](https://cdn.jsdelivr.net/gh/xixiluyaoyao/Code@develop/202501230227509.png)
 
@@ -175,6 +189,8 @@ git push origin :[branch name]//删除github远程分支
 
 
 ------
+
+## 关于vs
 
 又到了例行吐槽vs的git的环节：
 
@@ -212,6 +228,8 @@ git push origin :[branch name]//删除github远程分支
 
 我最开始是抗拒的，但是后面的用命令行直接add的部分人家直接用IDEA完成了，我也没辙，只能老实按他说的用vs交代码，然后就悲剧了。。
 
+### 解决办法：
+
 最后我方案是：~~用vs初始化本地的Git仓库，然后接下来：~~
 
 直接：
@@ -228,11 +246,11 @@ git push origin :[branch name]//删除github远程分支
 
 `git commit -m "注释"`提交当前代码
 
-如果直接git commit会出现这种情况，建议还是加上后面的注释部分![image-20250123200645085](https://cdn.jsdelivr.net/gh/xixiluyaoyao/Code/202501232007681.png)
+注意：如果直接git commit会出现这种情况，建议还是加上后面的注释部分![image-20250123200645085](https://cdn.jsdelivr.net/gh/xixiluyaoyao/Code/202501232007681.png)
 
 ~~`git merge <当前分支名称>`合并分支~~
 
-（**建议还是在GitHub上直接处理冲突然后合并分支，非常方便）**
+**（感觉`git merge`不好用，建议还是在GitHub上直接处理冲突然后合并分支，非常方便）**
 
 `git push origin <目标分支名称>`推送到远程仓库
 
@@ -242,7 +260,7 @@ git push origin :[branch name]//删除github远程分支
 
 
 
-现在是凌晨3：16，谢谢你vs
+现在是凌晨4：06，谢谢你vs
 
 vs是一款我的问题
 
@@ -276,13 +294,15 @@ vs是一款我的问题
 
 其实链表的实现并没有花我很多的时间，一些坑点我都写在注释里了，我本来想在readme中细细描述，但现在我有一个更想说的东西：
 
-==和Git不得不说的故事（已红温）==
-
 ------
+
+## 和Git不得不说的故事（已红温）
 
   我在去年暑假的时候就初步接触过git，当时用的是Gitbash直接敲命令行上传代码到gitee，过程非常简单，只需要把廖雪峰老师给的命令复制粘贴，就能轻松提交（当然最开始我没看懂git到底在干嘛，还是我哥给我演示了一遍，主打一个依葫芦画瓢）
 
   但是今年，我学会了 ~~魔法~~ 科学上网，所以决定用某hub存代码，其实操作大差不差，但是我这次非常作死地没用gitbash，而是改用vs2022的Git功能，然后噩梦开始了：
+
+- 网络代理端口
 
   我非常顺利地初始化了本地的仓库，然后点击推送的时候意外却发生了：vs显示未能推送到远程仓库，请检查输出，但我的输出最开始是这样的：![image-20250122224007048](https://cdn.jsdelivr.net/gh/xixiluyaoyao/Note/202501222240084.png)
 
@@ -294,7 +314,11 @@ vs是一款我的问题
 
   但是咱也不知道到底发生了什么，于是又去搜索，然后发现：原来不是本地仓库的原因，而是因为我挂了梯子？？好吧，然后按照教程换了代理端口![image-20250122224707831](https://cdn.jsdelivr.net/gh/xixiluyaoyao/Note/202501222247077.png)
 
-总算是提交成功了，皆大欢喜是不是？然后又冒出了新的问题：我的代码没有交到main，而是交到了一个莫名奇妙出现的新分支master。本来也可以不管的，但是一想到如果要看代码的话，还要切换分支，那多不方便？于是强迫症又犯了，开始找怎么合并分支，于是新的噩梦开始了：
+总算是提交成功了，皆大欢喜是不是？然后又冒出了新的问题：
+
+- 合并与删除分支
+
+我的代码没有交到main，而是交到了一个莫名奇妙出现的新分支master。本来也可以不管的，但是一想到如果要看代码的话，还要切换分支，那多不方便？于是强迫症又犯了，开始找怎么合并分支，于是新的噩梦开始了：
 
 我在vs里面点击合并分支，结果给我弹出来一个这个：
 
