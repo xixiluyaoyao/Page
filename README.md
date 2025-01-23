@@ -1,8 +1,148 @@
+# 第二次扩展与修复（链表）
+
+这次对链表增加了删除与销毁功能，并对老代码的一些bug进行了修复
+
+## 增加功能
+
+- 新增两个删除功能，分别用于删除链表中的第一个目标数据和删除链表中的所有目标数据
+- 新增销毁功能（就是把头节点也一起删掉）
+
+## 修复与改进
+
+- 修复访问权限冲突问题，避免可能导致的悬空指针问题，增加了代码的安全性
+
+​	我看的是黑马教的链表，他的销毁链表代码如下：
+
+![image-20250123201254318](https://cdn.jsdelivr.net/gh/xixiluyaoyao/Code/202501232012456.png)
+
+我觉得销毁链表的代码有很大一部分与清空链表的代码重复，所以我对销毁代码稍微做了一些改进：
+
+![image-20250123202242393](https://cdn.jsdelivr.net/gh/xixiluyaoyao/Code/202501232022536.png)
+
+但是在实际运行的时候，
+
+```
+Destroy(header);//销毁链表
+
+Printnode(header);//再次调用链表
+```
+
+这样编译器会告诉你Printnode函数出现访问权限冲突的问题，而按理来说此时的header节点应该是NULL，此时Printnode函数应该会打印“这是一个空节点”的结果![image-20250123202015822](https://cdn.jsdelivr.net/gh/xixiluyaoyao/Code/202501232020871.png)
+
+后面得知，不论是我的代码，还是黑马的代码，虽然传参数很方便，但是如果在销毁链表后，主函数中若再次访问header（比如调用了Printnode），程序会崩溃。这是一个悬空指针的问题
+
+至于为什么我在我的销毁代码中手动让`header=NULL`，还是会出现程序崩溃的情况，这是因为如果传入函数的参数是header，仅仅只传入了指针的值，相当于是指针的一个副本（即 `Destroy` 中的 `header` 是主函数中 `header` 的拷贝），此时在函数中对header进行修改，对主函数中的header没有任何影响。所以正确的做法是：
+
+```
+void Destroy(struct Linknode** header) {
+    Clear(*header);
+    free(*header);
+    *header = NULL; // 修改主函数中的 header
+}
+```
+
+这样，即使被销毁的链表在后续又被调用了，也不会导致程序崩溃。
+
+在C语言中，函数参数的传递始终是**值传递**。
+
+当你传递一个普通变量（比如 `int a`）时，函数接收到的是这个变量的**值的副本**，修改副本不会影响原变量。
+
+当你传递一个指针的地址（即 `struct LinkNode**`），本质上是将**指针变量本身的地址**传递给了函数。这样，函数接收到的是主函数中指针变量的地址，可以通过这个地址直接修改主函数中的指针。
+
+当你传递一个指针（比如 `int* ptr`）时，函数接收到的是这个指针的**副本**。
+
+通过这个指针副本可以修改它指向的内存内容，但不能修改主函数中的指针本身。
+
+- 对输出格式进行了改进：![image-20250123203945337](https://cdn.jsdelivr.net/gh/xixiluyaoyao/Code/202501232039389.png)
+
+相比以往的输出一个值换行一次，现在的输出结果更加美观，也更容易看出函数功能是否正常实现：![image-20250123204403357](https://cdn.jsdelivr.net/gh/xixiluyaoyao/Code/202501232044426.png)
+
+![image-20250123204210388](https://cdn.jsdelivr.net/gh/xixiluyaoyao/Code/202501232042438.png)
+
+------
+
+
+
+# 关于Git与Github
+
+最开始把这一栏放在二级目录里，但感觉这一栏的实用性非常强，所以把它放进了一级目录
+
+------
+
+vs的自动创建master分支大概是为了方便后续的分支合并，但我仍然感觉vs的Git功能不好用，以下我将归总以命令行的方式提交代码到仓库/分支，后续如果忘记了只需要把以下代码复制粘贴即可：
+
+提交代码到main：
+
+```
+Git 的全局配置：
+git config --global user.name "你的用户名"
+git config --global user.email "你的邮箱地址"
+git config --global --list//查看当前的全局配置
+全局配置适用于所有的 Git 仓库，只需要设置一次即可。
+
+如果本地文件在D盘，首先需要： D://进入D盘
+cd [文件名]//进入放代码的文件夹（也就是你要上传的项目文件）
+git init//初始化仓库
+git add .
+git commit -m "注释（用英文）"//提交代码。第一次会让输入git的邮箱、用户名
+git pull --rebase origin master//拉取代码
+git push -u origin master//push到远程仓库
+
+```
+
+提交代码到分支：
+
+```
+如果本地文件在D盘，首先需要： D://进入D盘
+cd [文件名]//进入放代码的文件夹
+git checkout -b [branch name]//创建+切换分支
+git push origin [branch name]//将新分支推送到github
+git checkout [branch name]//切换到新的分支（如果git checkout -b [branch name]了可以不需要这一步）
+git add .
+git commit -m "注释（用英文写）"//添加并提交本地需要提交的代码（最好要写 -m""那部分，不然cmd可能会报错）
+git push origin [branch name]//push 到git仓库
+```
+
+这时候你的Github中就会出现一个新分支，并且里面会有你提交的文件。一些人喜欢用命令行合并分支，但我觉得直接在Github里面合并分支会方便得多，方式如下：
+
+在你的仓库中点击Pull requests
+
+![image-20250123210900978](https://cdn.jsdelivr.net/gh/xixiluyaoyao/Code/202501232109410.png)
+
+点击New pull request，如果你提交了分支，这时候Create pull request就是亮的![image-20250123211026691](https://cdn.jsdelivr.net/gh/xixiluyaoyao/Code/202501232110770.png)
+
+点击即可创建合并分支的请求。如果你的分支和主分支没有冲突，就能直接合并，如果有冲突，这时候Github会把冲突的地方标出来，大概是这样：
+
+<<< [branch name]
+
+............(你的代码)
+
+............(这时候显示的代码一般来说就是你最新提交上去的那个)
+
+<<<< main
+
+验证此时的代码就是你要交的代码后，你只需要把<<< [branch name]和<<<< main手动删掉就行，然后再点击 “**Mark as resolved**“（我已解决冲突），解决完所有标记出来的冲突后，就能提交你的变更，然后点击**”Merge pull request“**（合并分支）来合并你的Pull Request。最后它会提示你可以放心地删除这条分支，然后你就点击删除分支就行，当然，如果想保留分支的话也可以不删。（个人觉得没必要保留，直接删掉就行）
+
+补充一些可能用到的分支管理代码：
+
+```
+git branch -r//查看远程分支
+git branch//查看本地分支
+git branch -d [branch name]//删除本地分支
+git push origin :[branch name]//删除github远程分支
+```
+
+
+
+------
+
+
+
 # 第一次扩展（链表）
 
 增加了插入功能以及清空链表功能。
 
-关于链表的清空功能：之前的代码没有free部分，一直malloc但是不free的话可能导致内存泄漏什么的。还好写的项目不算大，不然可能真把电脑搞坏了hhh。
+关于链表的清空功能：之前的代码没有free部分，一直malloc但是不free的话可能导致内存泄漏什么的。还好写的项目不大，不然可能真把电脑搞坏了hhh。
 
 值得一提的是，在调试的过程中，偶然在直接输入-1时编译器直接标红警告了，原因是Clear这个部分![571483936d750f984bea8b102bd4ca20](https://cdn.jsdelivr.net/gh/xixiluyaoyao/Note/202501230207464.png)
 
@@ -68,7 +208,9 @@
 
 我最开始是抗拒的，但是后面的用命令行直接add的部分人家直接用IDEA完成了，我也没辙，只能老实按他说的用vs交代码，然后就悲剧了。。
 
-最后我方案是：用vs初始化本地的Git仓库，然后接下来：
+最后我方案是：~~用vs初始化本地的Git仓库，然后接下来：~~
+
+直接：
 
 `git checkout -b [branch name]`创建本地分支
 
@@ -82,7 +224,11 @@
 
 `git commit -m "注释"`提交当前代码
 
-`git merge <当前分支名称>`合并分支
+如果直接git commit会出现这种情况，建议还是加上后面的注释部分![image-20250123200645085](https://cdn.jsdelivr.net/gh/xixiluyaoyao/Code/202501232007681.png)
+
+~~`git merge <当前分支名称>`合并分支~~
+
+（**建议还是在GitHub上直接处理冲突然后合并分支，非常方便）**
 
 `git push origin <目标分支名称>`推送到远程仓库
 
