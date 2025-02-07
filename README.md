@@ -109,6 +109,7 @@ git push -u origin master//push到远程仓库
 提交代码到分支：
 
 ```
+最好先用vs创建git仓库，否则要在cmd里面手动git remote add
 如果本地文件在D盘，首先需要： D://进入D盘
 cd [文件名]//进入放代码的文件夹
 git checkout -b [branch name]//创建+切换分支
