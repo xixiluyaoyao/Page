@@ -4,7 +4,7 @@
 
 ![image-20250207212228390](https://cdn.jsdelivr.net/gh/xixiluyaoyao/Code@master/202502072122673.png)
 
-- 传入用*q而不是用q：
+## - 传入用*q而不是用q：
 
 ```
 void initQueue(Queue *q)
@@ -14,7 +14,7 @@ void initQueue(Queue *q)
 
 通过传递指针（如 `Queue *q`），函数只需要复制指针的值（即内存地址），而不是整个结构体。这样可以显著提高性能。
 
-- 循环队列：
+## - 循环队列：
 
   假设队列的容量是 5 (`MAX_SIZE = 5`)，队列元素的索引范围是 0 到 4。
 
@@ -32,7 +32,7 @@ void initQueue(Queue *q)
     - 如果 `q->front` 是 1，执行 `q->front = (1 + 1) % 5 = 2`，前端指针继续向后移动一位。
     - 如果 `q->front` 是 4，执行 `q->front = (4 + 1) % 5 = 0`，前端指针将回到队列的起始位置，实现了循环。
 
-- 循环的作用：
+### - 循环的作用：
 
    **避免浪费空间**：
 
@@ -72,7 +72,7 @@ void initQueue(Queue *q)
 
   - 通过“循环”特性，尾指针（`rear`）已经从 `MAX_SIZE-1`（队列末尾）回到了队列的头部位置 `0`，重新利用了先前出队后的空位。
 
-- 打印函数：
+## - 打印函数：
 
   ```
   void printQueue(Queue* p) {
